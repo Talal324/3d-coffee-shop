@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew Haven - Premium Coffee Shop</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a1a, #2a1810);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Floating Coffee Beans */
+        .coffee-bean {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #8B4513, #5C2E0A);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.1;
+            animation: float 20s infinite;
+        }
+        
+        .coffee-bean:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .coffee-bean:nth-child(2) { top: 20%; left: 80%; animation-delay: 2s; }
+        .coffee-bean:nth-child(3) { top: 60%; left: 20%; animation-delay: 4s; }
+        .coffee-bean:nth-child(4) { top: 80%; left: 70%; animation-delay: 6s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(180deg); }
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 30px rgba(139, 69, 19, 0.3);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #D4A574, #8B4513);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(212, 165, 116, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #D4A574;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+            text-shadow: 0 0 20px rgba(212, 165, 116, 0.8);
+        }
+        
+        /* Hero Section with 3D Effect */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            position: relative;
+        }
+        
+        .hero-content {
+            text-align: center;
+            transform-style: preserve-3d;
+            animation: heroFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes heroFloat {
+            0%, 100% { transform: translateZ(0) rotateX(0deg); }
+            50% { transform: translateZ(50px) rotateX(5deg); }
+        }
+        
+        .hero h1 {
+            font-size: 6rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #D4A574, #FFD700, #D4A574);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 10px 50px rgba(212, 165, 116, 0.5);
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(212, 165, 116, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(212, 165, 116, 0.8)); }
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            color: #D4A574;
+            margin-bottom: 2rem;
+            transform: translateZ(30px);
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(45deg, #8B4513, #D4A574);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transform: translateZ(50px);
+            transition: all 0.3s;
+            box-shadow: 0 10px 40px rgba(139, 69, 19, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+        
+        .cta-btn:hover {
+            transform: translateZ(70px) scale(1.05);
+            box-shadow: 0 15px 60px rgba(139, 69, 19, 0.8);
+        }
+        
+        /* 3D Coffee Cup */
+        .coffee-cup-3d {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 400px;
+            perspective: 1000px;
+            animation: cupRotate 10s linear infinite;
+        }
+        
+        @keyframes cupRotate {
+            0% { transform: translateY(-50%) rotateY(0deg); }
+            100% { transform: translateY(-50%) rotateY(360deg); }
+        }
+        
+        .cup {
+            width: 200px;
+            height: 250px;
+            background: linear-gradient(180deg, #fff, #f0f0f0);
+            border-radius: 0 0 80px 80px;
+            position: relative;
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .cup::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 10%;
+            width: 80%;
+            height: 40px;
+            background: linear-gradient(180deg, #8B4513, #5C2E0A);
+            border-radius: 50%;
+            box-shadow: inset 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .steam {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .steam span {
+            display: block;
+            width: 8px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 5px;
+            border-radius: 50%;
+            animation: steam 3s ease-out infinite;
+            opacity: 0;
+        }
+        
+        .steam span:nth-child(1) { animation-delay: 0s; }
+        .steam span:nth-child(2) { animation-delay: 0.5s; }
+        .steam span:nth-child(3) { animation-delay: 1s; }
+        
+        @keyframes steam {
+            0% { transform: translateY(0) scaleX(1); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-40px) scaleX(3); opacity: 0; }
+        }
+        
+        /* Menu Section */
+        .menu-section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 4rem;
+            background: linear-gradient(45deg, #D4A574, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .menu-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-20px) rotateX(10deg);
+            box-shadow: 0 30px 80px rgba(139, 69, 19, 0.5);
+        }
+        
+        .menu-card:hover::before {
+            top: -25%;
+            left: -25%;
+        }
+        
+        .menu-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: #D4A574;
+            margin-bottom: 1rem;
+        }
+        
+        .menu-card p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            padding: 8rem 5%;
+            background: rgba(139, 69, 19, 0.1);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .gallery-item {
+            height: 300px;
+            background: linear-gradient(45deg, #8B4513, #D4A574);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: all 0.5s;
+            cursor: pointer;
+        }
+        
+        .gallery-item::before {
+            content: '☕';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            opacity: 0.3;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05) rotateY(10deg);
+            box-shadow: 0 20px 60px rgba(139, 69, 19, 0.6);
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 8rem 5%;
+            text-align: center;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(139, 69, 19, 0.4);
+        }
+        
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-card h3 {
+            color: #D4A574;
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.9);
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(212, 165, 116, 0.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero p { font-size: 1.2rem; }
+            .coffee-cup-3d { display: none; }
+            .nav-links { gap: 1rem; font-size: 0.9rem; }
+            .section-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="coffee-bean"></div>
+    <div class="coffee-bean"></div>
+    <div class="coffee-bean"></div>
+    <div class="coffee-bean"></div>
+    
+    <nav>
+        <div class="logo">☕ Brew Haven</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Brew Haven</h1>
+            <p>Where Every Cup Tells a Story</p>
+            <a href="#menu" class="cta-btn">Explore Our Menu</a>
+        </div>
+        
+        <div class="coffee-cup-3d">
+            <div class="cup">
+                <div class="steam">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="menu" class="menu-section">
+        <h2 class="section-title">Our Signature Brews</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <span class="menu-icon">☕</span>
+                <h3>Classic Espresso</h3>
+                <p>Rich, bold, and perfectly balanced. Our signature espresso blend crafted from premium Arabica beans.</p>
+                <div class="price">$4.99</div>
+            </div>
+            
+            <div class="menu-card">
+                <span class="menu-icon">🥤</span>
+                <h3>Caramel Macchiato</h3>
+                <p>Velvety steamed milk with vanilla syrup, espresso, and caramel drizzle. Pure indulgence.</p>
+                <div class="price">$5.99</div>
+            </div>
+            
+            <div class="menu-card">
+                <span class="menu-icon">🍵</span>
+                <h3>Matcha Latte</h3>
+                <p>Premium Japanese matcha whisked to perfection with creamy steamed milk.</p>
+                <div class="price">$6.49</div>
+            </div>
+            
+            <div class="menu-card">
+                <span class="menu-icon">❄️</span>
+                <h3>Iced Mocha</h3>
+                <p>Chilled espresso with rich chocolate, milk, and whipped cream. Perfect for hot days.</p>
+                <div class="price">$5.49</div>
+            </div>
+            
+            <div class="menu-card">
+                <span class="menu-icon">🥐</span>
+                <h3>Croissant & Coffee</h3>
+                <p>Buttery, flaky croissant paired with your choice of coffee. The perfect breakfast combo.</p>
+                <div class="price">$7.99</div>
+            </div>
+            
+            <div class="menu-card">
+                <span class="menu-icon">🍰</span>
+                <h3>Tiramisu Special</h3>
+                <p>Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.</p>
+                <div class="price">$6.99</div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="gallery" class="gallery">
+        <h2 class="section-title">Coffee Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"></div>
+            <div class="gallery-item"></div>
+            <div class="gallery-item"></div>
+            <div class="gallery-item"></div>
+            <div class="gallery-item"></div>
+            <div class="gallery-item"></div>
+        </div>
+    </section>
+    
+    <section id="contact" class="contact">
+        <h2 class="section-title">Visit Us Today</h2>
+        <div class="contact-info">
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <h3>Location</h3>
+                <p>123 Coffee Street<br>Downtown, City 12345</p>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-icon">⏰</div>
+                <h3>Hours</h3>
+                <p>Mon - Fri: 7:00 AM - 9:00 PM<br>Sat - Sun: 8:00 AM - 10:00 PM</p>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Contact</h3>
+                <p>Phone: (555) 123-4567<br>Email: hello@brewhaven.com</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2024 Brew Haven Coffee Shop. All rights reserved.</p>
+        <p>Crafted with ❤️ and ☕</p>
+    </footer>
+</body>
+</html>
